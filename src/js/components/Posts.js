@@ -1,11 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getData } from "../ducks/article";
+import { requestPosts } from "../ducks/article";
 
 export class Post extends Component {
 
+    aaa() {
+        console.log('did');
+    }
+    bbb() {
+        console.log('didnt');
+    }
     componentDidMount() {
-        this.props.getData();
+        this.props.requestPosts();
     }
     render() {
         return (
@@ -15,6 +21,7 @@ export class Post extends Component {
                         {el.title}
                     </li>
                 ))}
+                {this.props.postsLoading ? "Loading..." : ""}
             </ul>
         );
     }
@@ -22,11 +29,12 @@ export class Post extends Component {
 
 function mapStateToProps(state) {
     return {
-        articles: state.remoteArticles.slice(0, 10)
+        articles: state.remoteArticles.slice(0, 10),
+        postsLoading: state.postsLoading
     };
 }
 
 export default connect(
     mapStateToProps,
-    { getData }
+    { requestPosts }
 )(Post);
